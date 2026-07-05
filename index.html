@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sanu! 🎂❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffe4e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+        }
+
+        body.dark {
+            background-color: #1a1a2e;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.5s ease;
+            z-index: 10;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark .container {
+            background: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            border: 1px solid #ff69b4;
+        }
+
+        .aesthetic-card {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .aesthetic-card-dark {
+            background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(146, 141, 171, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1, h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .aesthetic-card h1, .love-card h2, #step-cake h1 {
+            animation: heartBeat 1.2s infinite;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .aesthetic-card p, .aesthetic-card-dark p, .love-card p {
+            color: #fff !important;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #ff4791;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 71, 145, 0.6);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: scale(1) !important;
+        }
+
+        .step {
+            display: none;
+            width: 100%;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .slide-in {
+            animation: slideInRight 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .slide-out {
+            animation: slideOutLeft 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .big-emoji {
+            font-size: 4.5rem;
+            margin: 15px 0;
+            display: inline-block;
+            animation: floatAnimation 2.5s infinite alternate ease-in-out;
+        }
+
+        /* 🎂 नयाँ केक काट्ने एनिमेसन र स्टाइल */
+        .cake-stage {
+            font-size: 5.5rem;
+            margin: 25px 0;
+            display: inline-block;
+            position: relative;
+            animation: floatAnimation 2s ease-in-out infinite alternate;
+            transition: transform 0.3s ease;
+        }
+
+        .cake-cut-animation {
+            animation: popCut 0.5s ease-in-out;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #fff;
+            filter: grayscale(100%) contrast(110%);
+            transition: filter 0.5s ease, transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+            opacity: 0;
+            animation: revealPhotos 0.6s ease forwards;
+        }
+
+        .gallery img:nth-child(1) { animation-delay: 0.1s; }
+        .gallery img:nth-child(2) { animation-delay: 0.2s; }
+        .gallery img:nth-child(3) { animation-delay: 0.3s; }
+        .gallery img:nth-child(4) { animation-delay: 0.4s; }
+
+        .gallery img:hover {
+            filter: grayscale(0%) contrast(100%);
+            transform: scale(1.06) rotate(1deg);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+            outline: 3px solid #ffffff;
+        }
+
+        .letter {
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #ff69b4;
+            text-align: left;
+            display: none;
+            color: #333;
+            margin-top: 15px;
+            animation: slideInRight 0.4s ease;
+        }
+
+        .love-card {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            padding: 30px 20px;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(255, 117, 140, 0.4);
+            animation: cardPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .falling-item {
+            position: absolute;
+            bottom: -15%;
+            animation: floatUpwards 5s linear infinite;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 🧪 KEYFRAMES */
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(100%); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOutLeft {
+            0% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(-100%); }
+        }
+
+        @keyframes cardPop {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes popCut {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(5deg); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes revealPhotos {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-12px) scale(1.05); }
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.08); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.08); }
+            70% { transform: scale(1); }
+        }
+
+        @keyframes floatUpwards {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) translateX(70px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="Happy_birthday_Sanu_🎂❤️_Wishing_you_a_year_filled_with_joy,_success,_and_everything_that_brings_you_happiness._May_this_day_be_a_reflection_of_how_de.mp3" loop></audio>
+
+    <div class="container">
+        
+        <!-- Step 1: Welcome -->
+        <div class="step active slide-in" id="step-1">
+            <div class="aesthetic-card">
+                <h1>Happy Birthday Sanu! 🎂❤️</h1>
+                <p>Wishing you a year filled with joy, success, and everything that brings you happiness. May this day be a reflection of how deeply you are loved! ✨</p>
+                <div class="big-emoji">👑🎈✨</div>
+                <br>
+                <button onclick="animateAndNext(2)">Let's Celebrate! 🎉</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Question -->
+        <div class="step" id="step-2">
+            <div class="aesthetic-card">
+                <h1>It's Your Special Day! ✨</h1>
+                <p>Do you wanna see what I made for you? 🥰</p>
+                <div class="big-emoji">🧸💞🙈</div>
+                <br>
+                <button onclick="animateAndNext(3)">Yes, of course! 👀</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Decoration Controls -->
+        <div class="step" id="step-3">
+            <div class="aesthetic-card-dark">
+                <h1>Let's Setup the Surprise! 🎈</h1>
+                <p>Light ON garnu rw song ma click garnu</p>
+                <div class="big-emoji">⚡🎵✨</div>
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
+                    <button id="btn-lights" onclick="turnOnLights()">💡 Turn On Lights</button>
+                    <button id="btn-music" onclick="playMusic()" disabled>🎵 Play Music</button>
+                    <button id="btn-decor" onclick="animateAndNext('cake')" disabled>🎂 Go to Cake Cutting</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW STEP: 🎂 Cake Cutting Stage -->
+        <div class="step" id="step-cake">
+            <h1>Make a Wish & Cut the Cake! 🕯️✨</h1>
+            <p style="color: #555;">Candel nivhaunu rw cake kathnu Sanu💖</p>
+            <div class="cake-stage" id="cake-display">🕯️🎂</div>
+            <br>
+            <button id="cut-cake-btn" onclick="cutTheCake()">Blow Candle & Cut Cake 🎂🔪</button>
+            <button id="next-after-cake" onclick="animateAndNext(4)" style="display: none; background-color: #4caf50;">Read My Message 💌</button>
+        </div>
+
+        <!-- Step 4: Message -->
+        <div class="step" id="step-4">
+            <h1>A Message From My Heart ❤️</h1>
+            <button onclick="toggleLetter()">💌 Open My Message</button>
+            <div class="letter" id="birthday-letter">
+                <p><strong>Hi Sanu,</strong></p>
+                <p>.*.Mero man ma sadhai tapai lai nai rakhane xu bas hjr parti gareko mero yo biswas lai natodi dinu thaha xaina aafai lai khai kasari yati dherai Pyaro hunu vhayo... 🥺 *.hjr lai  jati here pani napugne tapai kalpanama yesri haraune gardxu Ki manau ki tapai nai meri antima kalpanaho tapai ko Angaloma ma aafno saradhukha vulxu... 🥺 *.hjr mero lagi tyo manxe hunnxa jaslaiMa aafulai vanda dherai maya garxu yiaakha lai timi bahek kohi payarolagdaina sanu... 🥺 *.Mero man ma tapai yasri dera jamayerw baseko xau ki manuh tapai nai mero ghaau tapai nai malam ho pukulu:)❤️💖       
+
+Happy Birthday mero Pukulu ❤️
+
+Thank you for coming into my life.
+I promise to always cherish every moment with you.
+
+I Love You So Much,
+Mero Pyari Pukulu. 😘💋</p>
+            </div>
+            <br><br>
+            <button onclick="animateAndNext(5)">View Our Memories 📸</button>
+        </div>
+
+        <!-- Step 5: Photo Gallery -->
+        <div class="step" id="step-5">
+            <h1>Our Beautiful Memories 🗺️</h1>
+            <p style="font-style: italic; font-size: 0.95rem;">Forever Yours 💞</p>
+            <div class="gallery">
+                <img src="https://i.postimg.cc/ydNqYFbk/Whats-App-Image-2026-07-04-at-13-17-43-1.jpg" alt="Memory 1">
+                <img src="https://i.postimg.cc/4xRrhCSL/Whats-App-Image-2026-07-04-at-13-17-44-2.jpg" alt="Memory 2">
+                <img src="https://i.postimg.cc/rprjGzRM/Whats-App-Image-2026-07-04-at-13-26-08.jpg" alt="Memory 3">
+                <img src="https://i.postimg.cc/L8q3RhT0/Whats-App-Image-2026-07-04-at-13-37-06.jpg" alt="Memory 4">
+                <img src="https://i.postimg.cc/mrgRtfP8/Whats-App-Image-2026-07-04-at-13-17-45-7.jpg" alt="Memory 5">
+                <img src="https://i.postimg.cc/rs6vGvwP/Whats-App-Image-2026-07-04-at-13-17-44-3.jpg" alt="Memory 6">
+                <img src="https://i.postimg.cc/DZGNzBPR/Whats-App-Image-2026-07-04-at-13-17-46-8.jpg" alt="Memory 7">
+                <img src="https://i.postimg.cc/cLJ53scH/Whats-App-Image-2026-07-04-at-13-17-45-6.jpg" alt="Memory 8">
+                <img src="https://i.postimg.cc/vmJPC5w4/Whats-App-Image-2026-07-04-at-13-17-45-5.jpg" alt="Memory 9">
+                <img src="https://i.postimg.cc/sgfMzLJC/Whats-App-Image-2026-07-04-at-13-17-46-8.jpg" alt="Memory 10">
+            </div>
+            <br>
+            <button onclick="goToFinalStep()">One Last Thing... 🥺👉👈</button>
+        </div>
+
+        <!-- Step 6: Beautiful Interactive Love Card -->
+        <div class="step" id="step-6">
+            <div class="love-card">
+                <h2>To My Whole World 🌍💞</h2>
+                <p>I love you so much, <br>mero pyari Pukulu! 💖💍✨</p>
+                <p style="font-size: 1rem !important; margin-top: 10px; font-weight: normal; opacity: 0.9;">
+                    तपाईं मेरो जिन्दगीको सबैभन्दा सुन्दर उपहार हो। सधैं यसरी नै मेरो मुटुमा रहिरहनू। 🥰👑
+                </p>
+                <div class="budi-emoji">👸❤️🤵‍♂️</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script {timestamp="2026-07-04"}>
+        let currentStep = 1;
+        let animationInterval;
+        let isHeartRainActive = false;
+
+        window.onload = function() {
+            startVisualRain();
+        };
+
+        function animateAndNext(nextStepNo) {
+            // क्युरन्ट स्टेप आइडी मिलाउन टेक्स्ट वा नम्बर चेकिङ
+            const currentId = (isNaN(currentStep)) ? `step-${currentStep}` : `step-${currentStep}`;
+            const nextId = (isNaN(nextStepNo)) ? `step-${nextStepNo}` : `step-${nextStepNo}`;
+
+            const currentCard = document.getElementById(currentId);
+            const nextCard = document.getElementById(nextId);
+            
+            currentCard.classList.remove('slide-in');
+            currentCard.classList.add('slide-out');
+            
+            setTimeout(() => {
+                currentCard.classList.remove('active', 'slide-out');
+                nextCard.classList.add('active', 'slide-in');
+                currentStep = nextStepNo;
+            }, 450);
+        }
+
+        function turnOnLights() {
+            document.body.classList.add('dark');
+            document.getElementById('btn-lights').innerText = "💡 Lights Connected!";
+            document.getElementById('btn-lights').style.background = "#4caf50";
+            document.getElementById('btn-lights').disabled = true;
+            document.getElementById('btn-music').disabled = false;
+        }
+
+        function playMusic() {
+            const audio = document.getElementById('bg-music');
+            audio.play().catch(e => console.log("Audio playing enabled."));
+            document.getElementById('btn-music').innerText = "🎵 Music Playing!";
+            document.getElementById('btn-music').style.background = "#4caf50";
+            document.getElementById('btn-music').disabled = true;
+            document.getElementById('btn-decor').disabled = false;
+        }
+
+        // 🎂 केक काट्ने फङ्सन (Magic Transformation)
+        function cutTheCake() {
+            const cakeDisplay = document.getElementById('cake-display');
+            
+            // केक काट्ने पप एनिमेसन थप्ने
+            cakeDisplay.classList.add('cake-cut-animation');
+            
+            // मैनबत्ती निभेर केक काटिएको `🍰✨` मा परिणत हुने
+            setTimeout(() => {
+                cakeDisplay.innerText = "🍰✨🎉";
+                document.getElementById('cut-cake-btn').style.display = 'none';
+                document.getElementById('next-after-cake').style.display = 'inline-block';
+                
+                // केक काट्दा थप रङ्गीन उत्सव भाइब दिन अस्थायी रूपमा हार्ट रेन बढाउने
+                isHeartRainActive = true; 
+                setTimeout(() => { isHeartRainActive = false; }, 3000); // ३ सेकेन्डपछि सामान्य बेलुन मात्र
+            }, 300);
+        }
+
+        function toggleLetter() {
+            const letter = document.getElementById('birthday-letter');
+            letter.style.display = (letter.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function goToFinalStep() {
+            animateAndNext(6);
+            isHeartRainActive = true; 
+        }
+
+        function startVisualRain() {
+            const balloons = ['🎈', '🎈', '✨', '🎈'];
+            const hearts = ['❤️', '💖', '💘', '💕', '✨'];
+            
+            animationInterval = setInterval(() => {
+                const item = document.createElement('div');
+                item.classList.add('falling-item');
+                
+                if (isHeartRainActive) {
+                    const pool = [...balloons, ...hearts];
+                    item.innerText = pool[Math.floor(Math.random() * pool.length)];
+                } else {
+                    item.innerText = balloons[Math.floor(Math.random() * balloons.length)];
+                }
+                
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 2 + 3) + 's'; 
+                item.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+                document.body.appendChild(item);
+
+                setTimeout(() => {
+                    item.remove();
+                }, 5000);
+            }, 300); 
+        }
+    </script>
+</body>
+</html>
